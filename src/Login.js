@@ -128,15 +128,20 @@ const Login = () => {
    * Renderer
    ***********************************/
   return (
-    <div className="signup-container">
-      <div className="row px-3  vh-100">
-        <div className="col-md-5 mx-auto align-self-center">
-          {errMsg && showErrorMsg(errMsg)}
-          {loading && <div className="text-center">{showLoading()}</div>}
-          {showSignInForm()}
+    <>
+      <div className="signup-container">
+        <div className="row px-3  vh-100">
+          <div className="col-md-5 mx-auto align-self-center">
+            <h1>
+              <strong style={{ textAlign: "center" }}>Medical Portal</strong>
+            </h1>
+            {errMsg && showErrorMsg(errMsg)}
+            {loading && <div className="text-center">{showLoading()}</div>}
+            {showSignInForm()}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

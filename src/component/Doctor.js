@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Tabs, Form, Input, Button } from "antd";
 import { AccountBookFilled, SearchOutlined } from "@ant-design/icons";
 
+import { showLoading } from "../helper/loading";
 import SearchComp from "./SearchComp";
 import { getDocProfile, updateProfile } from "../api/doctor";
 
@@ -11,7 +12,9 @@ const { TabPane } = Tabs;
 const DoctorPage = () => {
   const history = useHistory();
 
+  const [loading, setLoading] = useState(false);
   const [docData, setDocData] = useState({
+    _id: "",
     fullName: "",
     email: "",
     username: "",
@@ -27,8 +30,14 @@ const DoctorPage = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  console.log(docData);
+
   const onFinishSubmit = (data) => {
-    updateProfile({ data });
+    const obj = {
+      ...data,
+      _id: docData._id,
+    };
+    updateProfile(obj);
   };
 
   return (
@@ -56,7 +65,10 @@ const DoctorPage = () => {
               justifyContent: "center",
             }}
           >
-            <SearchComp />
+            <SearchComp setLoading={setLoading} />
+          </div>
+          <div style={{ margin: "auto" }}>
+            {loading ? showLoading() : <p>Data</p>}
           </div>
         </TabPane>
         <TabPane
@@ -92,13 +104,26 @@ const DoctorPage = () => {
             <Form.Item label="Full Name" name="doctorName">
               <Input type="text" />
             </Form.Item>
-            <Form.Item label="Email" name="email">
+            <Form.Item
+              rules={[{ message: "Please Provide Valid Email", type: "email" }]}
+              label="Email"
+              name="email"
+            >
               <Input type="email" />
             </Form.Item>
             <Form.Item label="Username" name="username">
               <Input type="text" />
             </Form.Item>
-            <Form.Item label="password" name="password">
+            <Form.Item
+              rules={[
+                {
+                  message: "Please Provide at least a lenght of 6 character",
+                  min: 6,
+                },
+              ]}
+              label="password"
+              name="password"
+            >
               <Input.Password />
             </Form.Item>
             <Form.Item label="Address" name="address">

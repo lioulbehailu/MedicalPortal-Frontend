@@ -29,9 +29,12 @@ const HospitalPage = () => {
   }, []);
 
   const onFinishSubmit = (data) => {
-    console.log(data);
+    const obj = {
+      ...data,
+      _id: hospitalData._id,
+    };
 
-    updateProfile({ data });
+    updateProfile({ data: obj });
   };
 
   console.log(hospitalData);
@@ -78,13 +81,26 @@ const HospitalPage = () => {
             <Form.Item label="Hospital Name" name="HospitalName">
               <Input type="text" value={hospitalData.HospitalName} />
             </Form.Item>
-            <Form.Item label="Email" name="email">
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[{ message: "Please Provide Valid Email", type: "email" }]}
+            >
               <Input type="email" />
             </Form.Item>
             <Form.Item label="Username" name="username">
               <Input type="text" />
             </Form.Item>
-            <Form.Item label="password" name="password">
+            <Form.Item
+              label="password"
+              name="password"
+              rules={[
+                {
+                  message: "Please Provide at least a lenght of 6 character",
+                  min: 6,
+                },
+              ]}
+            >
               <Input.Password />
             </Form.Item>
             <Form.Item label="Address" name="address">
